@@ -57,6 +57,9 @@ void setup() {
     pinMode(POWER_S, OUTPUT);
     pinMode(POWER_R, OUTPUT);
     pinMode(POWER_V, OUTPUT);
+    
+    // The function determines the reference voltage against which the analog measurement occu (INTERNAL == 1.1V)
+    analogReference(INTERNAL);
 
     // Initialization of the transmitter
     #ifdef DEBUG
