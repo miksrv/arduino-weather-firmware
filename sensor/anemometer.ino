@@ -1,7 +1,7 @@
 //**************************************************************//
 //  Name    : W E A T H E R   S T A T I O N
 //  Author  : Mikhail (Mik™) <miksoft.tm@gmail.com>
-//  Version : 1.0.0 (22 Aug 2016)
+//  Version : 1.0.1 (1 Sen 2016)
 //  Notes   : FUNCTION - anemometer
 //**************************************************************//
 

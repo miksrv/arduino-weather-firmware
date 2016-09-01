@@ -1,12 +1,12 @@
 //**************************************************************//
 //  Name    : W E A T H E R   S T A T I O N
 //  Author  : Mikhail (Mik™) <miksoft.tm@gmail.com>
-//  Version : 1.9.2 (29 Aug 2016)
+//  Version : 1.9.3 (1 Sen 2016)
 //  Notes   : The controller-receiver for weather station
 //**************************************************************//
 
-#include <Wire.h>   // library barometer
-#include <Adafruit_BMP085.h>   // library barometer
+#include <Wire.h>              // library barometer
+#include <BMP085.h>            // library barometer
 #include <OneWire.h>           // library for DS18B20 sensor
 #include <DallasTemperature.h> // library for DS18B20 sensor
 #include <SPI.h>      // ethernet shield
@@ -19,7 +19,7 @@
 
 const byte PIN_RADIO   = 2; // Digital pin to connect the receiver
 const byte PIN_DS18B20 = 3; // Digital pin for connecting DS18B20 temperature sensor
-//const int DPS_ALTITUDE = 1000; // The height of the thermometer above sea level (cm)
+const int DPS_ALTITUDE = 1000; // The height of the thermometer above sea level (cm)
 
 // Sign degrees LCD screen
 uint8_t degrees[8] = {
@@ -38,21 +38,23 @@ uint8_t degrees[8] = {
 // RS, E, DB4, DB5, DB6, DB7
 LiquidCrystal lcd(9, 8, 4, 5, 6, 7);
 
-Adafruit_BMP085 DPS; // (DPS) Digital Pressure Sensor 
+BMP085 DPS = BMP085();        // (DPS) Digital Pressure Sensor
 OneWire oneWire(PIN_DS18B20); // Connecting OneWire
 DallasTemperature tempSensors(&oneWire); // Initialization 'DallasTemperature' library
 
 long previousMillis = 0;  // the last to send the local data
 long screenMillis   = 0;  // the time between the screen shifts
-long interval = 10000;    // interval between sending data (ms)
+long interval = 300000;   // interval between sending data (ms)
+
+float wind_ratio = 10;    // The correction factor for the anemometer
 
 // To display all information on one screen make several virtual screens to be 
 // switched between an on time interval
 byte screen = 1; // the current virtual screen
 
 // Convert sensor values
-int  pres = 0, wind = 0, light = 0;
-char temp1[6] = "00.0", temp2[8] = "00.0", humd[8] = "00.0", volt[4] = "0.0";
+int  pres = 0, light = 0;
+char temp1[6] = "00.0", temp2[8] = "00.0", humd[8] = "00.0", wind[8] = "00.0", volt[4] = "0.0";
 
 // Receiver initialization
 EasyTransferVirtualWire RADIO;
@@ -108,6 +110,7 @@ void setup(void) {
       Serial.print("(DPS) Digital Pressure Sensor init...");
     #endif
 
+    DPS.init(MODE_ULTRA_HIGHRES, DPS_ALTITUDE, true);
     delay(2000);
     tempSensors.begin();
 
@@ -155,18 +158,19 @@ void loop(void) {
     // In case of receiving data by radio
     if (RADIO.receiveData()) {
 
-        float t_temp = 0, t_humd = 0, t_volt = 0;
+        float t_temp = 0, t_humd = 0, t_volt = 0, t_wind = 0;
 
         t_temp = (( float(radiodata.temp) / 100) - 100);
         t_humd = ( float(radiodata.humd) / 100);
         t_volt = ( float(radiodata.volt) / 100);
+        t_wind = ( float(radiodata.wind) / wind_ratio);
 
         dtostrf(t_temp, 4, 1, temp2);
         dtostrf(t_humd, 4, 1, humd);
+        dtostrf(t_wind, 4, 1, wind);
         dtostrf(t_volt, 3, 1, volt);
 
         light = radiodata.lux;
-        wind  = radiodata.wind;
 
         #ifdef DEBUG
             Serial.println("Data taken over the radio channel:");
@@ -193,5 +197,20 @@ void loop(void) {
         #endif
     }
 
-    change_display();
+    // This code is executed constantly. First, we check to see if the desired 
+    // interval has passed, then retain the last shift, and send data to the server
+    unsigned long currentMillis = millis();
+
+    if (currentMillis - previousMillis > interval) {
+        previousMillis = currentMillis; 
+        get_local_sensors();
+        send_server_data();
+    }
+    
+    if (currentMillis - screenMillis > 5000) {
+        screenMillis = currentMillis; 
+
+        
+        change_display();
+    }
 } // void loop(void)
