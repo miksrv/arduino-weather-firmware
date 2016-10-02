@@ -1,7 +1,7 @@
 //**************************************************************//
 //  Name    : W E A T H E R   S T A T I O N
 //  Author  : Mikhail (Mik™) <miksoft.tm@gmail.com>
-//  Version : 1.0.0 (22 Aug 2016)
+//  Version : 1.0.1 (2 Oct 2016)
 //  Notes   : FUNCTION - voltage
 //**************************************************************//
 
@@ -15,7 +15,7 @@ void voltage() {
     float Vo = 1.1;   // reference voltage Arduino (const 1.1V)
     float vout = (analogRead(PIN_VOLT) * Vo) / 1023.0;
 
-    volt = vout / (R2/(R1+R2)); // Calculation of battery voltage
+    volt += vout / (R2/(R1+R2)); // Calculation of battery voltage
 
     #ifdef DEBUG
         Serial.print("   [OK] Internal voltage = ");
