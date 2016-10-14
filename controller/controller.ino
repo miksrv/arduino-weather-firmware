@@ -1,7 +1,7 @@
 //**************************************************************//
 //  Name    : W E A T H E R   S T A T I O N
 //  Author  : Mikhail (Mik™) <miksoft.tm@gmail.com>
-//  Version : 1.9.3 (1 Sen 2016)
+//  Version : 1.9.4 (14 Oct 2016)
 //  Notes   : The controller-receiver for weather station
 //**************************************************************//
 
@@ -45,8 +45,6 @@ DallasTemperature tempSensors(&oneWire); // Initialization 'DallasTemperature' l
 long previousMillis = 0;  // the last to send the local data
 long screenMillis   = 0;  // the time between the screen shifts
 long interval = 300000;   // interval between sending data (ms)
-
-float wind_ratio = 10;    // The correction factor for the anemometer
 
 // To display all information on one screen make several virtual screens to be 
 // switched between an on time interval
@@ -163,7 +161,7 @@ void loop(void) {
         t_temp = (( float(radiodata.temp) / 100) - 100);
         t_humd = ( float(radiodata.humd) / 100);
         t_volt = ( float(radiodata.volt) / 100);
-        t_wind = ( float(radiodata.wind) / wind_ratio);
+        t_wind = ( float(radiodata.wind));
 
         dtostrf(t_temp, 4, 1, temp2);
         dtostrf(t_humd, 4, 1, humd);
