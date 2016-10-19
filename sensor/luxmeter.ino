@@ -6,12 +6,20 @@
 //**************************************************************//
 
 void luxmeter() {
-    // Getting light sensor values
     delay(10);
-    // We get the light sensor data
+
     lux = analogRead(PIN_LUX);
-    //lux = map(lux, 509, 1009, 0, 500); // change the range of values
-    //lux = constrain(lux, 0, 500);      // we limit the value of a variable outside
+
+    // EXPEREMENTAL:
+    // MAX_ADC_READING = 1023, ADC_REF_VOLTAGE = 5
+    // LUX_CALC_SCALAR = 12518931, LUX_CALC_EXPONENT = -1.405
+
+    // rawData = analogRead(__PIN);
+    // resistorVoltage = (float)ldrRawData / MAX_ADC_READING * ADC_REF_VOLTAGE;
+    // ldrVoltage = ADC_REF_VOLTAGE - resistorVoltage;
+    // ldrResistance = ldrVoltage/resistorVoltage * REF_RESISTANCE;
+    // ldrLux = LUX_CALC_SCALAR * pow(ldrResistance, LUX_CALC_EXPONENT);
+
     #ifdef DEBUG
         Serial.print("   [OK] Photosensor lux = ");
         Serial.print(lux);
