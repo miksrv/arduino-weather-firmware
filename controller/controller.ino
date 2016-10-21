@@ -1,7 +1,7 @@
 //**************************************************************//
 //  Name    : W E A T H E R   S T A T I O N
 //  Author  : Mikhail (Mik™) <miksoft.tm@gmail.com>
-//  Version : 1.9.5 (21 Oct 2016)
+//  Version : 1.9.6 (21 Oct 2016)
 //  Notes   : The controller-receiver for weather station
 //**************************************************************//
 
@@ -51,11 +51,12 @@ long interval = 300000;   // interval between sending data (ms)
 byte screen = 1; // the current virtual screen
 
 // Convert sensor values
-int  light = 0, pressure = 0;
+int  light = 0;
+long pressure = 0;
 char replyBuffer[160];
-char temp1[5] = "00.0", temp2[5] = "00.0", 
-     humd[4] = "00.0", wind[4] = "00.0", 
-     mmHg[5] = "000.0", volt[4] = "0.0";
+char temp1[6] = "00.0", temp2[6] = "00.0", 
+     humd[6] = "00.0", wind[6] = "00.0", 
+     mmHg[6] = "000.0", volt[6] = "0.0";
 
 // Receiver initialization
 EasyTransferVirtualWire RADIO;
@@ -215,3 +216,14 @@ void loop(void) {
         change_display();
     }
 } // void loop(void)
+
+
+// The method determines the length of the string
+int len(char *buf) {
+  int i=0; 
+  do
+  {
+    i++;
+  } while (buf[i]!='\0');
+  return i;
+} // int len(char *buf)

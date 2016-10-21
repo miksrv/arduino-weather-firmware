@@ -6,6 +6,8 @@
 //**************************************************************//
 
 void send_server_data() {
+    char buf5[5];
+  
     memset(replyBuffer, 0, sizeof(replyBuffer));
 
     strcpy(replyBuffer,"ID=3859F96DD7FF");
@@ -21,7 +23,7 @@ void send_server_data() {
     strcat(replyBuffer, "&v=");  // Battery voltage
     strcat(replyBuffer, volt);
     strcat(replyBuffer, "&l=");  // Illumination
-    strcat(replyBuffer, light);
+    strcat(replyBuffer, itoa(light, buf5, 5));
     strcat(replyBuffer, "&w=");  // Wind speed
     strcat(replyBuffer, wind);
 
