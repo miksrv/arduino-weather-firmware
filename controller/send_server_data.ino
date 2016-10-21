@@ -1,36 +1,37 @@
 //**************************************************************//
 //  Name    : W E A T H E R   S T A T I O N
 //  Author  : Mikhail (Mik™) <miksoft.tm@gmail.com>
-//  Version : 1.0.1 (29 Aug 2016)
+//  Version : 1.1.0 (21 Oct 2016)
 //  Notes   : FUNCTION - Sending data to the server
 //**************************************************************//
 
 void send_server_data() {
-    String serverdata1;
-    String serverdata2;
+    memset(replyBuffer, 0, sizeof(replyBuffer));
 
-    serverdata1 = "ID=3859F96DD7FF&p=";
-    serverdata1.concat(pres);
-    serverdata1.concat("&t1=");
-    serverdata1.concat(temp1);
-    serverdata1.concat("&t2=");
-    serverdata1.concat(temp2);
+    strcpy(replyBuffer,"ID=3859F96DD7FF");
 
-    serverdata2 = "&h=";
-    serverdata2.concat(humd);
-    serverdata2.concat("&v=");
-    serverdata2.concat(volt);
-    serverdata2.concat("&l=");
-    serverdata2.concat(light);
-    serverdata2.concat("&w=");
-    serverdata2.concat(wind);
+    strcat(replyBuffer, "&p=");  // Atmosphere pressure
+    strcat(replyBuffer, mmHg);
+    strcat(replyBuffer, "&t1="); // Room temperature
+    strcat(replyBuffer, temp1);
+    strcat(replyBuffer, "&t2="); // The temperature in the street
+    strcat(replyBuffer, temp2);
+    strcat(replyBuffer, "&h=");  // Air humidity
+    strcat(replyBuffer, humd);
+    strcat(replyBuffer, "&v=");  // Battery voltage
+    strcat(replyBuffer, volt);
+    strcat(replyBuffer, "&l=");  // Illumination
+    strcat(replyBuffer, light);
+    strcat(replyBuffer, "&w=");  // Wind speed
+    strcat(replyBuffer, wind);
+
+    strcat(replyBuffer,'\0');
 
     #ifdef DEBUG
-        Serial.print("[");
-        Serial.print(serverdata1.length() + serverdata2.length());
-        Serial.println("] Send server data...");
-        Serial.print(serverdata1);
-        Serial.println(serverdata2);
+        Serial.print("[Content-Length: ");
+        Serial.print(len(replyBuffer));
+        Serial.print("] ");
+        Serial.println(replyBuffer);
     #endif
 
     if (LAN.connect(serverweather, 80)) {
@@ -39,10 +40,9 @@ void send_server_data() {
         LAN.println("Content-Type: application/x-www-form-urlencoded");
         LAN.println("Connection: close");
         LAN.print("Content-Length: ");
-        LAN.println(serverdata1.length() + serverdata2.length());
+        LAN.println(len(replyBuffer));
         LAN.println();
-        LAN.print(serverdata1);
-        LAN.println(serverdata2);
+        LAN.println(replyBuffer);
         LAN.println();
         delay(500);
         LAN.stop();

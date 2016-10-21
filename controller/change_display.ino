@@ -1,7 +1,7 @@
 //**************************************************************//
 //  Name    : W E A T H E R   S T A T I O N
 //  Author  : Mikhail (Mik™) <miksoft.tm@gmail.com>
-//  Version : 1.0.1 (1 Sen 2016)
+//  Version : 1.0.2 (21 Oct 2016)
 //  Notes   : FUNCTION - Changes display readings on a certain period of time
 //**************************************************************//
 
@@ -15,7 +15,7 @@ void change_display() {
             lcd.print("C");
             lcd.setCursor(0, 1);
             lcd.print(" P=");
-            lcd.print(pres);
+            lcd.print(pressure);
             lcd.print("mm");
             screen = 2;
       } else if (screen == 2) {

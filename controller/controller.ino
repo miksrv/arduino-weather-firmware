@@ -1,7 +1,7 @@
 //**************************************************************//
 //  Name    : W E A T H E R   S T A T I O N
 //  Author  : Mikhail (Mik™) <miksoft.tm@gmail.com>
-//  Version : 1.9.4 (14 Oct 2016)
+//  Version : 1.9.5 (21 Oct 2016)
 //  Notes   : The controller-receiver for weather station
 //**************************************************************//
 
@@ -43,7 +43,7 @@ OneWire oneWire(PIN_DS18B20); // Connecting OneWire
 DallasTemperature tempSensors(&oneWire); // Initialization 'DallasTemperature' library
 
 long previousMillis = 0;  // the last to send the local data
-long screenMillis   = 0;  // the time between the screen shifts
+long screenMillis   = 0;  // the time between the screen shiftsx
 long interval = 300000;   // interval between sending data (ms)
 
 // To display all information on one screen make several virtual screens to be 
@@ -51,8 +51,11 @@ long interval = 300000;   // interval between sending data (ms)
 byte screen = 1; // the current virtual screen
 
 // Convert sensor values
-int  pres = 0, light = 0;
-char temp1[6] = "00.0", temp2[8] = "00.0", humd[8] = "00.0", wind[8] = "00.0", volt[4] = "0.0";
+int  light = 0, pressure = 0;
+char replyBuffer[160];
+char temp1[5] = "00.0", temp2[5] = "00.0", 
+     humd[4] = "00.0", wind[4] = "00.0", 
+     mmHg[5] = "000.0", volt[4] = "0.0";
 
 // Receiver initialization
 EasyTransferVirtualWire RADIO;
@@ -76,7 +79,7 @@ byte mac[] = { 0x38, 0x59, 0xF9, 0x6D, 0xD7, 0xFF }; // MAC-address
 IPAddress ip(10,10,1,3);                 // IP address of the device on the network
 IPAddress serverweather(81,177,135,251); // IP address server
 
-EthernetClient LAN; 
+EthernetClient LAN;
 
 // SETUP
 void setup(void) {
