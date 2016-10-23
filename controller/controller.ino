@@ -15,7 +15,7 @@
 #include <EasyTransferVirtualWire.h> // transmitter library
 #include <LiquidCrystal.h>           // library for the character LCD screen
 
-//#define DEBUG // Debug mode (messages are displayed in a series)
+#define DEBUG // Debug mode (messages are displayed in a series)
 
 const byte PIN_RADIO   = 2; // Digital pin to connect the receiver
 const byte PIN_DS18B20 = 3; // Digital pin for connecting DS18B20 temperature sensor
@@ -170,7 +170,7 @@ void loop(void) {
         dtostrf(t_temp, 4, 1, temp2);
         dtostrf(t_humd, 4, 1, humd);
         dtostrf(t_wind, 4, 1, wind);
-        dtostrf(t_volt, 3, 1, volt);
+        dtostrf(t_volt, 4, 2, volt);
 
         light = radiodata.lux;
 

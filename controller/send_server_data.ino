@@ -23,7 +23,7 @@ void send_server_data() {
     strcat(replyBuffer, "&v=");  // Battery voltage
     strcat(replyBuffer, volt);
     strcat(replyBuffer, "&l=");  // Illumination
-    strcat(replyBuffer, itoa(light, buf5, 5));
+    strcat(replyBuffer, dtostrf(light,4,0, buf5));
     strcat(replyBuffer, "&w=");  // Wind speed
     strcat(replyBuffer, wind);
 
