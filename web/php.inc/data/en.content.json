@@ -1,0 +1,74 @@
+{
+    "language": {
+        "title": "Orenburg - Automatic weather station",
+        "description": "Weather station",
+        "no_data": "No data to display",
+        "last_update": "Last update",
+        "forecast_weather": "The forecast for 12-24 hours",
+        "location": {
+            "address": "Orenburg, Chkalov street",
+            "country": "Russian Federation"
+        },
+        "period": {
+            "title": "Period",
+            "day": "Day",
+            "week": "Week",
+            "month": "Month"
+        },
+        "graphics": "Graphs of changes of environmental parameters",
+        "charts1": "Temperature and humidity",
+        "charts2": "Atmospheric pressure, wind speed and lighting",
+        "charts3": "Voltage Battery weather station",
+        "wct": [
+            "No",
+            "Small",
+            "Low",
+            "Average",
+            "High",
+            "Very high",
+            "Dangerous! Very high"
+        ],
+        "forecast": [
+            "Settled fine",
+            "Fine weather",
+            "Becoming fine",
+            "Fine, becoming less settled",
+            "Fine, possible showers",
+            "Fairly fine, improving",
+            "Fairly fine, possible showers early",
+            "Fairly fine, showery later",
+            "Showery early, improving",
+            "Changeable, mending",
+            "Fairly fine, showers likely",
+            "Rather unsettled clearing later",
+            "Unsettled, probably improving",
+            "Showery, bright intervals",
+            "Showery, becoming less settled",
+            "Changeable, some rain",
+            "Unsettled, short fine intervals",
+            "Unsettled, rain later",
+            "Unsettled, some rain",
+            "Mostly very unsettled",
+            "Occasional rain, worsening",
+            "Rain at times, very unsettled",
+            "Rain at frequent intervals",
+            "Rain, very unsettled",
+            "Stormy, may improve",
+            "Stormy, much rain"
+        ]
+    },
+    "dashboard": {
+        "temp1": "On the street",
+        "temp2": "In room",
+        "humd": "Air humidity",
+        "press": "Pressure (mm)",
+        "light": "Illuminance (lx)",
+        "wind": "Wind (m\\s)",
+        "sunrise": "Sunrise",
+        "sunset": "Sunset",
+        "dewpoint": "Dew point",
+        "battery": "Voltage (battery)",
+        "moonrise": "Moon rise",
+        "moonset": "Moon sunset"
+    }
+}

@@ -1,0 +1,4 @@
+# Ignore list of project files
+
+/php.inc/config/arduino.php
+/php.inc/config/mysql.php
